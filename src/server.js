@@ -1,7 +1,7 @@
 import cors from 'cors';
 import express from 'express';
 import pino from 'pino-http';
-import { Contact } from './services/contacts.js';
+import { getAllContacts, getContactById } from './services/contacts.js';
 
 export function setupServer() {
   const app = express();
@@ -25,7 +25,7 @@ export function setupServer() {
   );
 
   app.get('/contacts', async (req, res) => {
-    const contacts = await Contact.find();
+    const contacts = await getAllContacts();
 
     res.send({
       status: 200,
@@ -37,7 +37,7 @@ export function setupServer() {
   app.get('/contacts/:contactId', async (req, res) => {
     const { contactId } = req.params;
 
-    const contacts = await Contact.findById(contactId);
+    const contacts = await getContactById(contactId);
 
     if (contacts === null) {
       return res.status(404).send({
