@@ -6,7 +6,11 @@ import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: '*',
+  }),
+);
 const isDev = process.env.NODE_ENV !== 'production';
 app.use(
   pino(
