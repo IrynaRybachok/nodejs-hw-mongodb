@@ -6,7 +6,7 @@ import {
   getContactByIdController,
   updateContactController,
   deleteContactController,
-} from '../controllers/contacts';
+} from '../controllers/contacts.js';
 
 const router = express.Router();
 const jsonParser = express.json();
