@@ -28,7 +28,7 @@ app.use(
   ),
 );
 
-app.use('/api', routers);
+app.use('/', routers);
 app.use(notFoundHandler);
 app.use(errorHandler);
 
