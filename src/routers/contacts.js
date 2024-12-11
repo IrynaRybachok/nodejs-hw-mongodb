@@ -8,7 +8,7 @@ import {
   deleteContactController,
 } from '../controllers/contacts.js';
 import { isValidId } from '../middlewares/isValidId.js';
-import { contactSchema } from '../validation/contacts.js';
+import { contactSchema, replaceContactSchema } from '../validation/contacts.js';
 import { validateBody } from '../middlewares/validateaBody.js';
 
 const router = express.Router();
@@ -26,7 +26,7 @@ router.patch(
   '/:contactId',
   isValidId,
   jsonParser,
-  validateBody(contactSchema),
+  validateBody(replaceContactSchema),
   ctrlWrapper(updateContactController),
 );
 router.delete('/:contactId', isValidId, ctrlWrapper(deleteContactController));

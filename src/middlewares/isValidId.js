@@ -5,7 +5,7 @@ export function isValidId(req, res, next) {
   const { id } = req.params;
 
   if (!isValidObjectId(id)) {
-    return next(createHttpError(400, 'Bad Request'));
+    return next(createHttpError(400, 'ID is not valid'));
   }
 
   next();
