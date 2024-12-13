@@ -20,7 +20,7 @@ export async function getAllContactsController(req, res) {
     sortBy,
     sortOrder,
     filter,
-    userId: req.user._id,
+    userId: req.user.id,
   });
 
   res.send({
@@ -38,7 +38,7 @@ export async function getContactByIdController(req, res) {
     throw new createHttpError.NotFound('Contact not found');
   }
 
-  if (contacts.ownerId.toString() !== req.user._id.toString()) {
+  if (contacts.userId.toString() !== req.user.id.toString()) {
     throw new createHttpError.NotFound('Student not found');
   }
 
@@ -56,7 +56,7 @@ export async function createContactController(req, res) {
     email: req.body.email,
     isFavourite: req.body.isFavourite,
     contactType: req.body.contactType,
-    userId: req.user._id,
+    userId: req.user.id,
   };
 
   const result = await createContact(contact);
