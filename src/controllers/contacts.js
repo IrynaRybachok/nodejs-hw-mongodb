@@ -20,6 +20,7 @@ export async function getAllContactsController(req, res) {
     sortBy,
     sortOrder,
     filter,
+    userId: req.user._id,
   });
 
   res.send({
@@ -31,16 +32,19 @@ export async function getAllContactsController(req, res) {
 
 export async function getContactByIdController(req, res) {
   const { contactId } = req.params;
-
   const contacts = await getContactById(contactId);
 
   if (contacts === null) {
     throw new createHttpError.NotFound('Contact not found');
   }
 
+  if (contacts.ownerId.toString() !== req.user._id.toString()) {
+    throw new createHttpError.NotFound('Student not found');
+  }
+
   res.send({
     status: 200,
-    message: `Successfully found contact with id ${contactId}!`,
+    message: `Successfully found contact!`,
     data: contacts,
   });
 }
@@ -52,6 +56,7 @@ export async function createContactController(req, res) {
     email: req.body.email,
     isFavourite: req.body.isFavourite,
     contactType: req.body.contactType,
+    userId: req.user._id,
   };
 
   const result = await createContact(contact);

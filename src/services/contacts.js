@@ -6,11 +6,12 @@ export async function getAllContacts({
   sortBy,
   sortOrder,
   filter,
+  userId,
 }) {
   const skip = page > 0 ? (page - 1) * perPage : 0;
   // const contactQuery = Contact.find();
 
-  const query = {};
+  const query = { userId };
   if (filter.isFavourite !== undefined) {
     query.isFavourite = filter.isFavourite;
   }
@@ -39,8 +40,8 @@ export async function getAllContacts({
   };
 }
 
-export async function getContactById(id) {
-  return await Contact.findById(id);
+export async function getContactById(id, userId) {
+  return await Contact.findOne({ _id: id, userId });
 }
 
 export async function createContact(contact) {

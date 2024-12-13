@@ -14,8 +14,8 @@ import { validateBody } from '../middlewares/validateaBody.js';
 const router = express.Router();
 const jsonParser = express.json();
 
-router.get('/', ctrlWrapper(getAllContactsController)); // /api/contacts/
-router.get('/:contactId', isValidId, ctrlWrapper(getContactByIdController)); // /api/contacts/:contactId
+router.get('/', ctrlWrapper(getAllContactsController)); // /contacts/
+router.get('/:contactId', isValidId, ctrlWrapper(getContactByIdController)); // /contacts/:contactId
 router.post(
   '/',
   jsonParser,
