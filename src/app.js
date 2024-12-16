@@ -9,13 +9,25 @@ import cookieParser from 'cookie-parser';
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
 app.use(
-  pino({
-    transport: {
-      target: 'pino-pretty',
-    },
+  cors({
+    origin: '*',
   }),
+);
+const isDev = process.env.NODE_ENV !== 'production';
+app.use(
+  pino(
+    isDev
+      ? {
+          transport: {
+            target: 'pino-pretty',
+            options: {
+              colorize: true,
+            },
+          },
+        }
+      : undefined, // В production транспорт не используется
+  ),
 );
 
 app.use('/', routers);
