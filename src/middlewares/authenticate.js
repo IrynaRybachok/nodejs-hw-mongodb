@@ -32,7 +32,7 @@ export async function authenticate(req, res, next) {
     return next(createHttpError(401, 'User not found'));
   }
 
-  req.user = { id: user._id, name: user.name };
+  req.user = user;
 
   next();
 }

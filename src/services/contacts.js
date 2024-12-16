@@ -20,7 +20,7 @@ export async function getAllContacts({
   }
 
   const [total, data] = await Promise.all([
-    Contact.countDocuments(query),
+    Contact.countDocuments(Contact.find(query)),
     Contact.find(query)
       .sort({ [sortBy]: sortOrder })
       .skip(skip)
