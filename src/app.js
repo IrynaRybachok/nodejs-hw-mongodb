@@ -5,6 +5,7 @@ import pino from 'pino-http';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import cookieParser from 'cookie-parser';
+import path from 'node:path';
 
 const app = express();
 app.use(express.json());
@@ -29,6 +30,7 @@ app.use(
       : undefined, // В production транспорт не используется
   ),
 );
+app.use('/photo', express.static(path.resolve('src/public/photo')));
 
 app.use('/', routers);
 app.use(notFoundHandler);

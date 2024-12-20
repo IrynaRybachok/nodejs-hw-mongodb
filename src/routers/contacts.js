@@ -10,6 +10,7 @@ import {
 import { isValidId } from '../middlewares/isValidId.js';
 import { contactSchema, replaceContactSchema } from '../validation/contacts.js';
 import { validateBody } from '../middlewares/validateaBody.js';
+import { upload } from '../middlewares/upload.js';
 
 const router = express.Router();
 const jsonParser = express.json();
@@ -18,12 +19,14 @@ router.get('/', ctrlWrapper(getAllContactsController)); // /contacts/
 router.get('/:contactId', isValidId, ctrlWrapper(getContactByIdController)); // /contacts/:contactId
 router.post(
   '/',
+  upload.single('photo'),
   jsonParser,
   validateBody(contactSchema),
   ctrlWrapper(createContactController),
 );
 router.patch(
   '/:contactId',
+  upload.single('photo'),
   isValidId,
   jsonParser,
   validateBody(replaceContactSchema),

@@ -9,6 +9,9 @@ import {
 import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
 import { parseFilterParams } from '../utils/parseFilterParams.js';
+import { uploadToCloudinary } from '../utils/uploadToCloudinary.js';
+import * as fs from 'node:fs/promises';
+import path from 'node:path';
 
 export async function getAllContactsController(req, res) {
   const { page, perPage } = parsePaginationParams(req.query);
@@ -54,6 +57,21 @@ export async function getContactByIdController(req, res) {
 }
 
 export async function createContactController(req, res) {
+  let photo = null;
+
+  if (typeof req.file !== 'undefined') {
+    if (process.env.ENABLE_CLOUDINARY === 'true') {
+      const savePhotoCloudinary = await uploadToCloudinary(req.file.path);
+      await fs.unlink(req.file.path);
+      photo = savePhotoCloudinary.secure_url;
+    } else {
+      await fs.rename(
+        req.file.path,
+        path.resolve('src', 'public', 'photos', req.file.filename),
+      );
+    }
+    photo = `http://localhost:3030/photos/${req.file.filename}`;
+  }
   const contact = {
     name: req.body.name,
     phoneNumber: req.body.phoneNumber,
@@ -61,6 +79,7 @@ export async function createContactController(req, res) {
     isFavourite: req.body.isFavourite,
     contactType: req.body.contactType,
     userId: req.user._id,
+    photo,
   };
 
   const result = await createContact(contact);
@@ -73,6 +92,21 @@ export async function createContactController(req, res) {
 }
 
 export async function updateContactController(req, res) {
+  let photo = null;
+
+  if (typeof req.file !== 'undefined') {
+    if (process.env.ENABLE_CLOUDINARY === 'true') {
+      const savePhotoCloudinary = await uploadToCloudinary(req.file.path);
+      await fs.unlink(req.file.path);
+      photo = savePhotoCloudinary.secure_url;
+    } else {
+      await fs.rename(
+        req.file.path,
+        path.resolve('src', 'public', 'photos', req.file.filename),
+      );
+    }
+    photo = `http://localhost:3030/photos/${req.file.filename}`;
+  }
   const { contactId } = req.params;
 
   const existingContact = await getContactById(contactId, req.user._id);
@@ -90,6 +124,7 @@ export async function updateContactController(req, res) {
     email: req.body.email,
     isFavourite: req.body.isFavourite,
     contactType: req.body.contactType,
+    photo,
   };
 
   const result = await updateContact(contactId, contact);
