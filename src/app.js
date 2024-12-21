@@ -6,7 +6,12 @@ import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import cookieParser from 'cookie-parser';
 import path from 'node:path';
+import swaggerUI from 'swagger-ui-express';
+import * as fs from 'node:fs';
 
+const swaggerDocument = JSON.parse(
+  fs.readFileSync(path.resolve('docs/swagger.json'), 'utf-8'),
+);
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
@@ -31,6 +36,7 @@ app.use(
   ),
 );
 app.use('/photo', express.static(path.resolve('src/public/photo')));
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 app.use('/', routers);
 app.use(notFoundHandler);
