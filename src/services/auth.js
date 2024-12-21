@@ -87,9 +87,10 @@ export async function sendResetPassword(email) {
       expiresIn: '5m',
     },
   );
+  console.log('SMTP_USER:', process.env.SMTP_USER);
 
   await sendMail({
-    from: 'deutsche.post15@gmail.com',
+    from: 'iryna.rybachok02@gmail.com',
     to: user.email,
     subject: 'Reset password',
     html: `<p>To reset your password please visit this <a href="http://localhost:3000/reset-password?token=${resetToken}">link</a></p>`,
