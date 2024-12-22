@@ -26,11 +26,11 @@ properties:
     type: string
     example: 'johndoe@gmail.com'
   isFavourite:
-    description: "Contact's favourite"
+    description: 'Contacts favourite status'
     type: boolean
     example: true
   contactType:
-    description: 'Whether is student on duty'
+    description: "Contact's type"
     type: string
     enum: ['work', 'home', 'personal']
     example: 'work'

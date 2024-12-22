@@ -13,14 +13,10 @@ parameters:
       type: string
       example: 676462ff85dc040abeb5c824
 requestBody:
-  required: true
   content:
     application/json:
       schema:
         type: object
-        required:
-          - name
-          - phoneNumber
         properties:
           name:
             description: "Contacts's name"
