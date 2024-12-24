@@ -11,7 +11,7 @@ tags:
     description: Operation with contacts.
 servers:
   - url: http://localhost:3000
-  - url: https://dashboard.render.com/web/srv-ct2cm8d6l47c73ba0v7g
+  - url: https://nodejs-hw-mongodb-sc92.onrender.com
 paths:
   /contacts/{id}:
     get:
